@@ -2,7 +2,7 @@ const path = require('path');
 
 module.exports = {
   entry: [
-    "./client/pages/homepage/index.js"
+    "./client/index.js"
     // room: "./client/pages/roompage/room.js"
   ],
   output: {
