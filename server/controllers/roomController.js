@@ -1,32 +1,39 @@
+const models = require('../models/mainModels.js');
+
 const roomController = {};
 
-roomController.getMoreCharacters = async (req, res, next) => {
+roomController.generateRoom = async (req, res, next) => {
   try {
-    const response = await fetch('https://swapi.dev/api/people/?page=3');
-    const newChars = await response.json();
-    console.log('goodbye');
-    res.locals.newCharacters = newChars.results;
+    // generate a four letter room code here and store it somewhere
     return next();
-  } catch (err) {
+  } catch(err) {
     return next({
-      log: `starWarsController.getMoreCharacters: ERROR: ${err}`,
-      message: { err: 'starWarsController.getMoreCharacters: ERROR: Check server logs for details' }
+      log: `roomController.generateRoom: ERROR: ${err}`,
+      message: { err: 'roomController.generateRoom: ERROR: Check server logs for details' }
     });
   }
+};
 
-  // await fetch('https://swapi.dev/api/people/?page=3')
-  //   .then((response) => response.json())
-  //   .then((response) => {
-  //     console.log('goodbye');
-  //     res.locals.newCharacters = response.results;
-  //     return next();
-  //   })
-  //   .catch((err) => {
-  //     return next({
-  //       log: `starWarsController.getMoreCharacters: ERROR: ${err}`,
-  //       message: { err: 'starWarsController.getMoreCharacters: ERROR: Check server logs for details' }
-  //     });
-  //   });
+roomController.addLocation = async (req, res, next) => {
+  try {
+    const roomCode = req.params.roomID;
+    const newLoc = req.body.location;
+    console.log("roomCode in roomController.addLocation:", roomCode);
+    console.log("newLoc in roomController.addLocation:", newLoc);
+    await models.Room.findOneAndUpdate({ roomcode: roomCode },
+      { "$push": { location: newLoc } },
+      {
+        new: true, 
+        upsert: true
+      }
+    );
+    return next();
+  } catch(err) {
+    return next({
+      log: `roomController.addLocation: ERROR: ${err}`,
+      message: { err: 'roomController.addLocation: ERROR: Check server logs for details' }
+    });
+  }
 };
 
 module.exports = roomController;

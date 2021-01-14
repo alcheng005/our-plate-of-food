@@ -1,13 +1,15 @@
 import React from 'react';
 import { render } from 'react-dom';
+import { Provider } from 'react-redux';
 // import { BrowserRouter } from 'react-router-dom';
-// import { Provider } from 'react-redux';
-// import store from './store';
+  // for future: websockets?
+import Room from './Room.jsx';
+import store from '../../store.js';
 import '../../style.css';
 
 render(
-  <div>
-    <h2>Room: GXHE</h2>
-  </div>,
+  <Provider store={store}>
+    <Room />
+  </Provider>,
   document.getElementById('roompage'),
 );

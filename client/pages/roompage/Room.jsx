@@ -1,6 +1,25 @@
-// import React, { Component } from 'react';
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import * as actions from '../../actions/actions.js';
 
+const mapDispatchToProps = (dispatch) => ({
+  addLocation: (loc) => { dispatch(actions.addLocation(loc)) },
+  removeLocation: (loc) => { dispatch(actions.removeLocation(loc)) }
+});
 
+class Room extends Component {
+  constructor(props) {
+    super(props);
+  }
+
+  render() {
+    return (
+      <div>
+        Sup Homie
+      </div>
+    );
+  }
+}
 
 // class App extends Component {
 //   constructor(props) {
@@ -23,4 +42,4 @@
 //   }
 // }
 
-// export default App;
+export default connect(null, mapDispatchToProps)(Room);

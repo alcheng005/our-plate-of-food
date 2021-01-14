@@ -1,24 +1,28 @@
 const path = require('path');
 
 module.exports = {
-  entry: {
-    index: "./client/pages/homepage/index.js",
-    room: "./client/pages/roompage/room.js"
-  },
+  entry: [
+    "./client/pages/homepage/index.js"
+    // room: "./client/pages/roompage/room.js"
+  ],
   output: {
     path: path.join(__dirname, "build"),
-    filename: "[name].bundle.js",
+    filename: "bundle.js",
   },
   devServer: {
     publicPath: "/build/",
     // contentBase: "/client/",
     proxy: {
-      '/': 'http://localhost:3000'
+      '/': 'http://localhost:3000',
     },
   },
   mode: process.env.NODE_ENV,
   module: {
     rules: [
+      {
+        test: /\.html$/i,
+        loader: 'html-loader',
+      },
       {
         test: /\.jsx?/,
         exclude: /node_modules/,

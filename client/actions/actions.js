@@ -1,7 +1,7 @@
 import * as types from '../constants/actionTypes';
 
 export const addLocation = (location) => ({
-  type: types.ADD_MARKET,
+  type: types.ADD_LOCATION,
   payload: location
 });
 

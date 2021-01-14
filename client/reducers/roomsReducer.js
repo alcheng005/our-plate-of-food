@@ -1,4 +1,13 @@
 import * as types from '../constants/actionTypes';
+const models = require('../../server/models/mainModels.js');
+
+// async function getRoomList () {
+//   const roomList = await models.Room.find({}).exec();
+//   console.log('roomList:', roomList);
+//   return roomList;
+// }
+
+// const testArr = getRoomList();
 
 const initialState = {
   locations: [],
@@ -11,7 +20,7 @@ const roomsReducer = (state = initialState, action) => {
     case types.ADD_LOCATION: {
       // if location already exists on the shared room food list, do nothing and
       // return state
-      if (state.locations.includes(action.payload)) return { ...state };
+      if (state.locations.includes(action.payload)) return state;
       
       newLocations = state.locations.slice();
       newLocations.push(action.payload);
