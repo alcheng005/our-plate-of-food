@@ -23,22 +23,35 @@ http.listen(PORT, () => {
 
 io.on('connection', (socket) => {
   console.log('Someone connected to a Room');
+
   socket.emit('connection', sharedState.locations);
+
   socket.on('add-item', (newLoc) => {
+    if (newLoc === '') return;
+    if (sharedState.locations.includes(newLoc)) return;
+
     if (sharedState.locations[0] === '(List is empty, add something!)') sharedState.locations = [];
+    
     sharedState.locations.push(newLoc);
-    sharedState.numItems = sharedState.locations.length;
     console.log('item was added');
+
+    sharedState.numItems = sharedState.locations.length;
+
     io.emit('refresh-list', sharedState.locations, sharedState.numItems);
   })
+
   socket.on('remove-item', (locToRemove) => {
-    console.log('locToRemove in server remove-item', locToRemove);
+    if (locToRemove === '') return;
+    if (!sharedState.locations.includes(locToRemove)) return;
+    
     sharedState.locations = sharedState.locations.filter((loc) => {
       return loc !== locToRemove;
     });
+    console.log('item was removed');
+    
     sharedState.numItems = sharedState.locations.length;
     if (sharedState.numItems === 0) sharedState.locations = ['(List is empty, add something!)'];
-    console.log('item was removed');
+    
     io.emit('refresh-list', sharedState.locations, sharedState.numItems);
   })
 });
